@@ -15,6 +15,9 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
+        'registration' => [
+            'class' => 'app\modules\registration\Module'
+        ],
     ],
     'components' => [
         'request' => [

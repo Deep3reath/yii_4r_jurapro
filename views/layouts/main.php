@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
+
 /* @var $content string */
 
 use app\widgets\Alert;
@@ -24,6 +25,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
+
+
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -35,7 +38,40 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
+            Yii::$app->user->isGuest ? (
+            ['label' => 'Register', 'url' => ['/site/register']]
+            ) : (
+            Yii::$app->user->identity->role == 1 ? ['label' => 'Admin', 'url' => ['/admin/default']] :
+                ['label' => 'Profile', 'url' => ['/user/index']]
+            ),
+            Yii::$app->user->isGuest ? (
+            ['label' => 'Login', 'url' => ['/site/login']]
+            ) : ('<li>'.
+                Html::beginForm(['/comments/create'], 'post')
+                . Html::submitButton(
+                    'Comments',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'.
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Logout',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
 
+            )
+        ],
+    ]);
     NavBar::end();
     ?>
 

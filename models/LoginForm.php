@@ -35,6 +35,8 @@ class LoginForm extends Model
         ];
     }
 
+
+
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -53,6 +55,9 @@ class LoginForm extends Model
         }
     }
 
+
+
+
     /**
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
@@ -65,6 +70,7 @@ class LoginForm extends Model
         return false;
     }
 
+
     /**
      * Finds user by [[username]]
      *
@@ -73,9 +79,11 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findOne(['login'=>$this->username]);
         }
 
         return $this->_user;
     }
+
+
 }
