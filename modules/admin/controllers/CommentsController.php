@@ -2,12 +2,15 @@
 
 namespace app\modules\admin\controllers;
 
+use app\models\Content;
+use app\models\Users;
 use Yii;
 use app\models\Comments;
 use app\models\CommentsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\User;
 
 /**
  * CommentsController implements the CRUD actions for Comments model.
@@ -65,6 +68,8 @@ class CommentsController extends Controller
     public function actionCreate()
     {
         $model = new Comments();
+        $users = new Users();
+        $content = new Content();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,6 +77,8 @@ class CommentsController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'content' => $content::find()->all(),
+            'users' => $users::find()->all(),
         ]);
     }
 

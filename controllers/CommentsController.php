@@ -52,8 +52,15 @@ class CommentsController extends Controller
      */
     public function actionView($id)
     {
+        $model = new Comments();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $comment = new Comments();
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+
         ]);
     }
 

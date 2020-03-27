@@ -2,10 +2,6 @@
 
 namespace app\modules\admin\controllers;
 
-use app\models\News;
-use app\models\User;
-use app\models\NewsSearch;
-use app\models\Comments;
 use yii\web\Controller;
 
 /**
@@ -19,14 +15,6 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $lastUsers = User::find()->orderBy('id desc')->limit(3)->all();
-        $news = News::find()->orderBy('id desc')->all();
-        $comments = Comments::find()->orderBy('id desc')->all();
-
-        return $this->render('index', [
-            'lastUsers' => $lastUsers,
-            'news' => $news,
-            'comments' => $comments
-        ]);
+        return $this->render('index');
     }
 }

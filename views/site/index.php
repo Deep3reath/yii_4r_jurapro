@@ -6,35 +6,24 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h2>Новости</h2>
-        <?php for ($i = 0; $i < count($news); $i++): ?>
-            <div style="display: flex; flex-flow: column;">
-                <div>
 
-                    <h3 style="font-size: 18px;">
-                        <span>#<?= $news[$i]->id ?> </span><?= $news[$i]->header ?>
-                    </h3>
-                </div>
-                <div>
-                    <p style="font-size: 14px;">
-                        <?= $news[$i]->text ?>
+    <div class="body-content" style="display: flex; flex-flow: column">
+        <?php foreach ($content as $row): ?>
+        <div class="row">
+            <div class="col-lg-4">
+                <h2><?= $row->title?></h2>
+
+                <p><?= $row->body ?></p>
+                <p style="color: lightgray; font-size: 11px">
+                    Комментарии:
+                </p>
+                <?php foreach ($comments as $row): ?>
+                    <p style="color: gray; font-size: 10px;">
+                        <?= $row->text ?>
                     </p>
-                </div>
-                <div>
-                    <p style="font-size: 11px;">Комментарии:</p>
-                    <?php for ($j = 0; $j < count($comments); $j++): ?>
-                        <?php if($comments[$j]->news_id == $news[$i]->id): ?>
-                        <div>
-                            <p style="font-size: 10px;">
-                                <?= $comments[$j]->text;?>
-                            </p>
-                        </div>
-                        <?php endif; ?>
-                    <?php endfor; ?>
-                </div>
+                <?php endforeach; ?>
             </div>
-        <?php endfor; ?>
+        </div>
+        <?php endforeach; ?>
     </div>
 </div>
-

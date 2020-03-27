@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\User */
+/* @var $model app\models\Users */
 /* @var $form ActiveForm */
 ?>
 <div class="site-register">
@@ -14,13 +14,9 @@ use yii\widgets\ActiveForm;
         'enableAjaxValidation' => true
     ]); ?>
 
-    <?= $form->field($model, 'fio') ?>
-    <?= $form->field($model, 'email') ?>
     <?= $form->field($model, 'login') ?>
     <?= $form->field($model, 'password')->passwordInput() ?>
-    <?= $form->field($model, 'repeat_password')->passwordInput() ?>
-    <?= $form->field($model, 'file', ['enableAjaxValidation' => false])->fileInput()
-    ?>
+
 
     <div class="form-group">
         <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary']) ?>
@@ -28,3 +24,4 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+

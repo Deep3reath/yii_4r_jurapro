@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Comments;
+use app\models\Content;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -11,9 +13,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
-use app\models\News;
-use app\models\Comments;
-
+use app\models\Page;
 class SiteController extends Controller
 {
     /**
@@ -65,14 +65,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $news = News::find()->orderBy('id desc')->all();
+        $req = explode('/', $_SERVER['REQUEST_URI'])[1];
+        $req == null ? $req = 'site' : null;
+        $id = Page::findOne(['title' => $req]);
+        $model = Content::find()->where(['id_page'=> $id->id])->orderBy('id desc')->all();
         $comments = Comments::find()->orderBy('id desc')->all();
-        return $this->render('index',
-        [
-            'news' => $news,
+        return $this->render('index', [
+            'content'=> $model,
             'comments' => $comments
         ]);
     }
+
 
     /**
      * Login action.
@@ -96,10 +99,9 @@ class SiteController extends Controller
         ]);
     }
 
-
     public function actionRegister()
     {
-        $model = new \app\models\User();
+        $model = new \app\models\Users();
         // ajax проверка
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
             Yii::$app->response->format = Response::FORMAT_JSON;
@@ -108,10 +110,8 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             // Загружаем файл в переменную до валидации
-            $model->file = UploadedFile::getInstance($model, 'file');
             // если валидация прошла успешно и файл был загружен
-            if ($model->validate() && $uploadedFileName = $model->upload()) {
-                $model->image = $uploadedFileName;
+            if ($model->validate()) {
                 // принудительная установка роли
                 $model->role = 0;
                 $model->save(false);
@@ -126,6 +126,7 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
 
 
     /**
@@ -166,10 +167,5 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
-    }
-
-    public function actionComments()
-    {
-        
     }
 }
